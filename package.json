@@ -2,19 +2,13 @@
   "name": "sample-login-form",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-scripts": "3.0.1"
-  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
+    "lint": "tslint -c tslint.json src/**/*.{ts,tsx} --fix --format verbose",
+    "tslint-check": "tslint-config-prettier-check ./tslint.json",
+    "prettier": "npm run tslint-check && prettier --write \"*/**/*.{ts,tsx,less}\""
   },
   "browserslist": {
     "production": [
@@ -27,5 +21,23 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "dependencies": {
+    "@types/jest": "24.0.16",
+    "node-sass": "4.12.0",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-scripts": "3.0.1"
+  },
+  "devDependencies": {
+    "@types/node": "12.6.8",
+    "@types/react": "16.8.23",
+    "@types/react-dom": "16.8.5",
+    "tslint": "5.18.0",
+    "tslint-config-prettier": "1.18.0",
+    "tslint-origin-ordered-imports-rule": "1.2.2",
+    "tslint-plugin-prettier": "2.0.1",
+    "tslint-react": "4.0.0",
+    "typescript": "3.5.3"
   }
 }
