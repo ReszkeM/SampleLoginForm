@@ -1,0 +1,25 @@
+@import '../../../../assets/styles/variables.sass'
+@import '../../../../assets/styles/colors.sass'
+
+.form-container 
+  display: flex
+  flex-direction: column
+  flex-grow: 1
+
+  .form-label 
+    margin-bottom: $spacing-sm
+    text-align: left
+    font-size: $font-size-sm
+
+  .form-control 
+    height: $field-height
+    padding: 0 $spacing-sm
+    border-radius: $radius-sm
+    font-size: $font-size-md
+    border: 1px solid $black
+    outline: none
+    transition: all 0.3s ease-in-out
+
+    &:focus
+      border: 1px solid transparent
+      box-shadow: 0px 0px 8px 2px $primary

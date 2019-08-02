@@ -1,0 +1,51 @@
+@import '../../../../assets/styles/variables.sass'
+@import '../../../../assets/styles/colors.sass'
+
+=filled-button($color, $active-color) 
+  background-color: $color
+
+  &:active
+    background-color: $active-color
+
+=outline-button($color)
+  color: $color
+  border: 2px solid $color
+
+.button
+  height: $field-height
+  padding: 0 $spacing-sm
+  border-radius: $radius-sm
+  font-size: $font-size-md
+  outline: none
+  transition: box-shadow 0.3s ease-in-out, background-color 0.2s ease-in-out 
+
+  &:hover
+    cursor: pointer
+    box-shadow: 0px 0px 10px 0px $shadow
+
+  &.button-auto-width
+    width: auto
+  
+  &.button-max-width
+    width: 100%
+
+  &.button-filled
+    border: 0
+
+    &.button-primary
+      +filled-button($primary, $primary-dark)
+
+    &.button-secondary
+      +filled-button($secondary, $secondary-dark)
+  
+  &.button-outline
+    background-color: $white
+
+    &:active
+      background-color: $grey
+
+    &.button-primary
+      +outline-button($primary)
+
+    &.button-secondary
+      +outline-button($secondary)
