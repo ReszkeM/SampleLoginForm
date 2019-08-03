@@ -1,8 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Route } from 'react-router-dom';
 
-import Home from './home/containers/home';
-import Login from './login/containers/login';
+import Home from '../home/containers/home';
+import Login from '../login/containers/login';
 
 import './App.sass';
 
