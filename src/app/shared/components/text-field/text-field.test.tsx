@@ -3,7 +3,8 @@ import sinon from 'sinon';
 import { create } from 'react-test-renderer';
 
 import TextField from './text-field';
-import { shouldThrow } from '../../utils/test-helpers';
+import { shouldThrow } from '../../utils/test-helpers/test-helpers';
+import { ValidationError } from '../../interfaces/Validation';
 
 describe('TextField', () => {
   const fakeFunc = sinon.spy();
@@ -22,33 +23,66 @@ describe('TextField', () => {
   describe('calculate proper container className', () => {
     const defaultClassName = 'form-container';
 
-    it('set `search-form` class by default', () => {
-      const component = create(<TextField value={testValue} onChange={fakeFunc} />);
-      const container = component.root.findByType('div');
-      expect(container.props.className).toEqual(defaultClassName);
+    describe('customClass', () => {
+      it('set `form-container` class by default', () => {
+        const component = create(<TextField value={testValue} onChange={fakeFunc} />);
+        const container = component.root.findByType('div');
+        expect(container.props.className).toEqual(defaultClassName);
+      });
+
+      it('add custom class theme', () => {
+        const customClassName = 'custom-class';
+        const expectedClassName = `${defaultClassName} ${customClassName}`;
+        const component = create(<TextField value={testValue} onChange={fakeFunc} className={customClassName} />);
+        const container = component.root.findByType('div');
+        expect(container.props.className).toEqual(expectedClassName);
+      });
     });
 
-    it('add custom class theme', () => {
-      const customClassName = 'custom-class';
-      const expectedClassName = `${defaultClassName} ${customClassName}`;
-      const component = create(<TextField value={testValue} onChange={fakeFunc} className={customClassName} />);
-      const container = component.root.findByType('div');
-      expect(container.props.className).toEqual(expectedClassName);
+    describe('errorMessage', () => {
+      it('set `form-container` class by default', () => {
+        const component = create(<TextField value={testValue} onChange={fakeFunc} />);
+        const container = component.root.findByType('div');
+        expect(container.props.className).toEqual(defaultClassName);
+      });
+
+      it('add custom class theme', () => {
+        const error = new ValidationError('some error');
+        const expectedClassName = `${defaultClassName} form-error error`;
+        const component = create(<TextField value={testValue} onChange={fakeFunc} errorMessage={error} />);
+        const container = component.root.findByType('div');
+        expect(container.props.className).toEqual(expectedClassName);
+      });
     });
   });
 
   describe('label', () => {
     it('hidde label by default', () => {
       const component = create(<TextField value={testValue} onChange={fakeFunc} />);
-      expect(shouldThrow(() => component.root.findByType('label'))).toBeTruthy();
+      expect(shouldThrow(() => component.root.findByProps({ className: 'form-label' }))).toBeTruthy();
     });
 
     it('show label passed in props', () => {
       const expectedText = 'some label';
       const component = create(<TextField value={testValue} onChange={fakeFunc} label={expectedText} />);
-      const label = component.root.findByType('label');
+      const label = component.root.findByProps({ className: 'form-label' });
       expect(label).toBeTruthy();
       expect(label.props.children).toEqual(expectedText);
+    });
+  });
+
+  describe('errorMessage', () => {
+    it('hidde errorMessage by default', () => {
+      const component = create(<TextField value={testValue} onChange={fakeFunc} />);
+      expect(shouldThrow(() => component.root.findByProps({ className: 'form-validation' }))).toBeTruthy();
+    });
+
+    it('show errorMessage passed in props', () => {
+      const error = new ValidationError('some error');
+      const component = create(<TextField value={testValue} onChange={fakeFunc} errorMessage={error} />);
+      const errorLabel = component.root.findByProps({ className: 'form-validation' });
+      expect(errorLabel).toBeTruthy();
+      expect(errorLabel.props.children).toEqual(error.message);
     });
   });
 
