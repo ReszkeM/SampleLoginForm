@@ -5,6 +5,7 @@ import { LoginState } from '../reducers/reducer';
 import { LoginStart } from './types';
 import { loginStart, loginSuccess, loginError } from './actions';
 import LoginData from '../models/login-data';
+import { handleLogin } from '../apis/api-service';
 
 export const loginProcess = (loginData: LoginData): ThunkAction<void, LoginState, null, LoginStart> => async (
   dispatch: Dispatch
@@ -12,9 +13,9 @@ export const loginProcess = (loginData: LoginData): ThunkAction<void, LoginState
   dispatch(loginStart());
 
   try {
-    // TODO: fake request
-    setTimeout(() => dispatch(loginSuccess()), 2000);
+    await handleLogin(loginData);
+    dispatch(loginSuccess());
   } catch (error) {
-    dispatch(loginError());
+    dispatch(loginError(error.errorMessage));
   }
 };

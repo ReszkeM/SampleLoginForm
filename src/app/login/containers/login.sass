@@ -1,4 +1,5 @@
 @import '../../../assets/styles/variables.sass'
+@import '../../../assets/styles/colors.sass'
 
 .login-container
   display: flex
@@ -13,3 +14,15 @@
     .email-field,
     .password-field
       margin-bottom: $spacing-lg
+
+  .login-error
+    margin-bottom: $spacing-xlg
+    height: $field-height
+    display: flex
+    justify-content: center
+    align-items: center
+    border-radius: $radius-sm
+    box-shadow: 0px 0px 8px 2px $error
+
+    .error-message
+      color: $error

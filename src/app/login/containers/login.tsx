@@ -77,6 +77,7 @@ class Login extends React.Component<ILoginProps, ILoginState> {
         <div className="login-container">
           <Card className="login-card">
             <h1 className="title">LOGIN</h1>
+            {this.props.errorMessage && this.renderErrorMessage()}
             <TextField
               className="email-field"
               onChange={this.handleEmailChange}
@@ -97,6 +98,14 @@ class Login extends React.Component<ILoginProps, ILoginState> {
         </div>
         {this.props.isLoging && <Spinner />}
       </>
+    );
+  }
+
+  private renderErrorMessage(): JSX.Element {
+    return (
+      <div className="login-error">
+        <h3 className="error-message">{this.props.errorMessage}</h3>
+      </div>
     );
   }
 
