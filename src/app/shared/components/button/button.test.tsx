@@ -16,7 +16,7 @@ describe('Button', () => {
 
   describe('calculate proper className', () => {
     describe('className', () => {
-      it('set `btn btn-primary` class by default', () => {
+      it('set `button button-primary` class by default', () => {
         const component = create(<Button onClick={fakeFunc} />);
         const button = component.root.findByType('button');
         expect(button.props.className).toEqual(defaultClassName);

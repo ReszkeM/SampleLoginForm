@@ -18,14 +18,16 @@ describe('Action Items Projects Reducer', () => {
       const state: LoginState = {
         ...initialState,
         isLoging: true,
-        isLogedIn: false
+        isLoggedIn: false,
+        errorMessage: 'some error'
       };
       const result = loginReducer(state, loginSuccess());
 
       expect(result).toEqual({
         ...initialState,
         isLoging: false,
-        isLogedIn: true
+        isLoggedIn: true,
+        errorMessage: undefined
       });
     });
   });
@@ -35,7 +37,7 @@ describe('Action Items Projects Reducer', () => {
       const state: LoginState = {
         ...initialState,
         isLoging: false,
-        isLogedIn: false,
+        isLoggedIn: false,
         errorMessage: undefined
       };
       const result = loginReducer(state, loginError('some error'));
@@ -43,7 +45,7 @@ describe('Action Items Projects Reducer', () => {
       expect(result).toEqual({
         ...initialState,
         isLoging: false,
-        isLogedIn: false,
+        isLoggedIn: false,
         errorMessage: 'some error'
       });
     });

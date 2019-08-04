@@ -1,6 +1,13 @@
 @import '../../../../assets/styles/variables.sass'
 @import '../../../../assets/styles/colors.sass'
 
+=validation-error($color)
+  .form-control
+    box-shadow: 0px 0px 8px 2px $color
+
+  .form-validation
+    color: $color
+
 .form-container 
   display: flex
   flex-direction: column
@@ -34,15 +41,7 @@
       font-size: $font-size-sm
 
     &.error
-      .form-control
-        box-shadow: 0px 0px 8px 2px $error
+      +validation-error($error)
 
-      .form-validation
-        color: $error
-  
     &.warning
-      .form-control
-        box-shadow: 0px 0px 8px 2px $warning
-
-      .form-validation
-        color: $warning
+      +validation-error($warning)

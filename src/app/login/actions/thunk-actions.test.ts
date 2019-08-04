@@ -24,14 +24,11 @@ describe('Thunk Actions', () => {
   });
 
   describe('loginProcess', () => {
-    jest.useFakeTimers();
-
-    it('dispatch proper actions on success', () => {
+    it('dispatch proper actions on success', async () => {
       const store = mockStore({});
       const expectedActions = [LoginActionTypes.loginStart, LoginActionTypes.loginSuccess];
 
-      return store.dispatch<any>(loginProcess(new LoginData('test@test.pl', 'Password1'))).then(() => {
-        jest.runAllTimers();
+      return store.dispatch<any>(loginProcess(new LoginData('test@test.pl', 'Password1'))).then(async () => {
         const actualActions = store.getActions().map(action => action.type);
         expect(actualActions).toEqual(expectedActions);
       });
@@ -42,7 +39,6 @@ describe('Thunk Actions', () => {
       const expectedActions = [LoginActionTypes.loginStart, LoginActionTypes.loginFailed];
 
       return store.dispatch<any>(loginProcess(new LoginData('fake.email@gmail.com', 'fakePassword'))).then(() => {
-        jest.runAllTimers();
         const actualActions = store.getActions().map(action => action.type);
         expect(actualActions).toEqual(expectedActions);
       });

@@ -54,7 +54,7 @@ class Login extends React.Component<ILoginProps, ILoginState> {
   }
 
   componentDidUpdate(): void {
-    if (this.props.isLogedIn) {
+    if (this.props.isLoggedIn) {
       this.props.history.push('/');
     }
   }

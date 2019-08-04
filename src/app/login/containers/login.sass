@@ -1,6 +1,8 @@
 @import '../../../assets/styles/variables.sass'
 @import '../../../assets/styles/colors.sass'
 
+$negative-spacing-xlg: -$spacing-xlg
+
 .login-container
   display: flex
   align-items: center
@@ -16,13 +18,12 @@
       margin-bottom: $spacing-lg
 
   .login-error
-    margin-bottom: $spacing-xlg
+    margin: 0 $negative-spacing-xlg $spacing-xlg $negative-spacing-xlg
     height: $field-height
     display: flex
     justify-content: center
     align-items: center
-    border-radius: $radius-sm
-    box-shadow: 0px 0px 8px 2px $error
+    background-color: $error
 
     .error-message
-      color: $error
+      color: $white

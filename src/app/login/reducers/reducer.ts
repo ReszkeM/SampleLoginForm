@@ -2,13 +2,13 @@ import { LoginActionTypes, LoginActions } from '../actions/types';
 
 export interface LoginState {
   isLoging: boolean;
-  isLogedIn: boolean;
+  isLoggedIn: boolean;
   errorMessage?: string;
 }
 
 export const initialState: LoginState = {
   isLoging: false,
-  isLogedIn: false,
+  isLoggedIn: false,
   errorMessage: undefined
 };
 
@@ -24,14 +24,15 @@ export function loginReducer(state: LoginState = initialState, action: LoginActi
       return {
         ...state,
         isLoging: false,
-        isLogedIn: true
+        isLoggedIn: true,
+        errorMessage: undefined
       };
 
     case LoginActionTypes.loginFailed:
       return {
         ...state,
         isLoging: false,
-        isLogedIn: false,
+        isLoggedIn: false,
         ...action.payload
       };
 
