@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
+import { connect } from 'react-redux';
+import { History } from 'history';
 
+import { loginProcess } from '../actions/thunk-actions';
+import { LoginState } from '../reducers/reducer';
+
+import LoginData from '../models/login-data';
 import Card from '../../shared/components/card/card';
 import Button from '../../shared/components/button/button';
+import Spinner from '../../shared/components/spinner/spinner';
 import TextField from '../../shared/components/text-field/text-field';
 import { ValidationError } from '../../shared/interfaces/Validation';
 import isEmail from '../../shared/utils/validators/is-email';
 import { isValidPassword, isValidPasswordLength } from '../../shared/utils/validators/is-valid-password';
+import { AppState } from '../../../rootReducer';
 
 import './login.sass';
 
@@ -21,8 +29,13 @@ interface ILoginState {
   errors: IValidations;
 }
 
-class Login extends React.Component<{}, ILoginState> {
-  constructor(props: {}) {
+interface ILoginProps extends LoginState {
+  loginProcess: (loginData: LoginData) => void;
+  history: History;
+}
+
+class Login extends React.Component<ILoginProps, ILoginState> {
+  constructor(props: ILoginProps) {
     super(props);
 
     this.state = {
@@ -40,6 +53,12 @@ class Login extends React.Component<{}, ILoginState> {
     this.submit = this.submit.bind(this);
   }
 
+  componentDidUpdate(): void {
+    if (this.props.isLogedIn) {
+      this.props.history.push('/');
+    }
+  }
+
   handleEmailChange(value: string): void {
     this.setState({ email: value }, () => this.validateForm());
   }
@@ -49,32 +68,35 @@ class Login extends React.Component<{}, ILoginState> {
   }
 
   submit(): void {
-    this.setState({ isValidationEnabled: true }, () => this.validateForm(() => this.handleSubmit));
+    this.setState({ isValidationEnabled: true }, () => this.validateForm(() => this.handleSubmit()));
   }
 
   render(): JSX.Element {
     return (
-      <div className="login-container">
-        <Card className="login-card">
-          <h1 className="title">LOGIN</h1>
-          <TextField
-            className="email-field"
-            onChange={this.handleEmailChange}
-            value={this.state.email}
-            errorMessage={this.state.errors.email}
-            label="Email"
-          />
-          <TextField
-            className="password-field"
-            onChange={this.handlePasswordChange}
-            value={this.state.password}
-            errorMessage={this.state.errors.password}
-            type="password"
-            label="Hasło"
-          />
-          <Button width="max" label="LOGIN" onClick={this.submit} />
-        </Card>
-      </div>
+      <>
+        <div className="login-container">
+          <Card className="login-card">
+            <h1 className="title">LOGIN</h1>
+            <TextField
+              className="email-field"
+              onChange={this.handleEmailChange}
+              value={this.state.email}
+              errorMessage={this.state.errors.email}
+              label="Email"
+            />
+            <TextField
+              className="password-field"
+              onChange={this.handlePasswordChange}
+              value={this.state.password}
+              errorMessage={this.state.errors.password}
+              type="password"
+              label="Hasło"
+            />
+            <Button width="max" label="LOGIN" onClick={this.submit} />
+          </Card>
+        </div>
+        {this.props.isLoging && <Spinner />}
+      </>
     );
   }
 
@@ -112,8 +134,17 @@ class Login extends React.Component<{}, ILoginState> {
       return;
     }
 
-    // TODO: Dispatch Login Action
+    this.props.loginProcess(new LoginData(this.state.email, this.state.password));
   }
 }
 
-export default Login;
+const mapStateToProps = (state: AppState) => ({ ...state.loginReducer });
+
+const mapDispatchToProps = (dispatch: Dispatch<any>) => ({
+  loginProcess: (loginData: LoginData) => dispatch(loginProcess(loginData))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Login);
